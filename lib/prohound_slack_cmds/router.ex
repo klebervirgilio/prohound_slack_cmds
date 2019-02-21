@@ -1,6 +1,8 @@
 defmodule ProhoundSlackCmds.Router  do
   use Plug.Router
 
+  alias ProhoundSlackCmds.SmartCentre
+
   plug Plug.Parsers, parsers: [:urlencoded]
   plug Plug.Logger
   plug :match

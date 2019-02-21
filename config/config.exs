@@ -2,9 +2,13 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :prohound_slack_cmds, db: [
+config :prohound_slack_cmds,
+es: %{
+  url: "http://localhost:9200/rails_event_store_active_record_events_development/_search?"
+},
+db: [
   pool: DBConnection.Poolboy,
-  pool_size: 20,
+  pool_size: 5,
   host: "localhost",
   username: "kleber.correia",
   password: "",
