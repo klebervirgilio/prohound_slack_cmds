@@ -24,7 +24,10 @@ defmodule ProhoundSlackCmds.MixProject do
     [
       {:plug_cowboy, "~> 2.0"},
       {:poolboy, "~> 1.5"},
-      {:postgrex, "~> 0.13.5"}
+      {:postgrex, "~> 0.13.5"},
+      {:httpoison, "~> 1.4"},
+      {:poison, "~> 3.1"},
+      {:timex, "~> 3.1"}
     ]
   end
 end

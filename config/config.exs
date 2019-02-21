@@ -10,7 +10,7 @@ db: [
   pool: DBConnection.Poolboy,
   pool_size: 5,
   host: "localhost",
-  username: "kleber.correia",
+  username: "klebercorreia",
   password: "",
   database: "prohound_development"
 ]
