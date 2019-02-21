@@ -3,17 +3,17 @@
 use Mix.Config
 
 config :prohound_slack_cmds,
-es: %{
-  url: "http://localhost:9200/rails_event_store_active_record_events_development/_search?"
-},
-db: [
-  pool: DBConnection.Poolboy,
-  pool_size: 5,
-  host: "localhost",
-  username: "klebercorreia",
-  password: "",
-  database: "prohound_development"
-]
+  es: %{
+    url: "http://localhost:9200/rails_event_store_active_record_events_development/_search?"
+  },
+  db: [
+    pool: DBConnection.Poolboy,
+    pool_size: 5,
+    host: "localhost",
+    username: "klebercorreia",
+    password: "",
+    database: "prohound_development"
+  ]
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

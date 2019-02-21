@@ -34,8 +34,11 @@ defmodule ProhoundSlackCmds.SmartCentre.ES do
 
   def last_sync(gateway_id) do
     case HTTPoison.request(:get, es_url(), body(gateway_id), headers()) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: b}} -> b |> Poison.decode!() |> process_body()
-      _ -> IO.puts ":("
+      {:ok, %HTTPoison.Response{status_code: 200, body: b}} ->
+        b |> Poison.decode!() |> process_body()
+
+      _ ->
+        IO.puts(":(")
     end
   end
 
@@ -49,13 +52,12 @@ defmodule ProhoundSlackCmds.SmartCentre.ES do
     end
   end
 
-
   def body(gateway_id) do
     EEx.eval_string(@es_query, gateway_id: gateway_id)
   end
 
   def headers do
-    [ "Content-Type": "application/json" ]
+    ["Content-Type": "application/json"]
   end
 
   def es_url do

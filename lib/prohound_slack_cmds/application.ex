@@ -9,7 +9,8 @@ defmodule ProhoundSlackCmds.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      {Postgrex, Keyword.put(Application.get_env(:prohound_slack_cmds, :db), :name, ProhoundSlackCmds.DB)},
+      {Postgrex,
+       Keyword.put(Application.get_env(:prohound_slack_cmds, :db), :name, ProhoundSlackCmds.DB)},
       Plug.Cowboy.child_spec(scheme: :http, plug: ProhoundSlackCmds.Router, options: [port: 4001])
     ]
 
