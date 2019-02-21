@@ -37,8 +37,9 @@ defmodule ProhoundSlackCmds.SmartCentre.ES do
       {:ok, %HTTPoison.Response{status_code: 200, body: b}} ->
         b |> Poison.decode!() |> process_body()
 
-      _ ->
-        IO.puts(":(")
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.puts(reason)
+        nil
     end
   end
 

@@ -2,11 +2,13 @@ defmodule ProhoundSlackCmds.SmartCentre.Model do
   alias ProhoundSlackCmds.SmartCentre.Repo
   alias ProhoundSlackCmds.SmartCentre.ES
 
-  defstruct registration_code: nil,
-            account_id: nil,
+  defstruct account_id: nil,
+            account_name: nil,
+            branch: nil,
+            group: nil,
+            machine: nil,
             machine_id: nil,
-            name: nil,
-            title: nil,
+            registration_code: nil,
             last_sync: nil
 
   def all do

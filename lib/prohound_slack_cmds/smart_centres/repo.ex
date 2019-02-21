@@ -1,6 +1,12 @@
 defmodule ProhoundSlackCmds.SmartCentre.Repo do
   @base_query ~S"""
-  SELECT registration_code, gateways.account_id, machine_id, machines.title, groups.title, group_categories.name, accounts.name
+  SELECT registration_code,
+         gateways.account_id,
+         machine_id,
+         machines.title as machine,
+         groups.title as group,
+         group_categories.name as branch,
+         accounts.name as account
   FROM gateways left join accounts on accounts.id = gateways.account_id
   left join machines on machines.id = gateways.machine_id
   left join groups on machines.group_id = groups.id
