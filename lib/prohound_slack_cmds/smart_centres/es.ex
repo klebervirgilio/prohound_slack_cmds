@@ -14,7 +14,7 @@ defmodule ProhoundSlackCmds.SmartCentre.ES do
           },
           {
             "match": {
-              "gateway_id": "<%= gateway_id %>"
+              "stream": "Gateway$<%= gateway_id %>"
             }
           }
         ]

@@ -1,6 +1,7 @@
 defmodule ProhoundSlackCmds.SmartCentre.Repo do
   @base_query ~S"""
   SELECT registration_code,
+         gateways.id,
          gateways.account_id,
          machine_id,
          machines.title as machine,

@@ -9,6 +9,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Model do
             machine: nil,
             machine_id: nil,
             registration_code: nil,
+            id: nil,
             latest_sync: nil
 
   def all do
@@ -23,7 +24,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Model do
 
   def fetch_latest_sync(smart_centre) do
     Task.async(fn ->
-      latest_sync = ES.latest_sync(smart_centre.registration_code) |> convert_timestamp()
+      latest_sync = ES.latest_sync(smart_centre.id) |> convert_timestamp()
       %{smart_centre | latest_sync: latest_sync}
     end)
   end
