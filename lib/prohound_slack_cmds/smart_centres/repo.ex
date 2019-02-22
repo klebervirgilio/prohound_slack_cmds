@@ -7,10 +7,11 @@ defmodule ProhoundSlackCmds.SmartCentre.Repo do
          groups.title as group,
          group_categories.name as branch,
          accounts.name as account
-  FROM gateways left join accounts on accounts.id = gateways.account_id
-  left join machines on machines.id = gateways.machine_id
-  left join groups on machines.group_id = groups.id
-  left join group_categories on group_categories.id = groups.group_category_id
+  FROM gateways
+  LEFT JOIN accounts on accounts.id = gateways.account_id
+  LEFT JOIN machines on machines.id = gateways.machine_id
+  LEFT JOIN groups on machines.group_id = groups.id
+  LEFT JOIN group_categories on group_categories.id = groups.group_category_id
   """
 
   def find_all do

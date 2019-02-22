@@ -3,6 +3,7 @@
 use Mix.Config
 
 config :prohound_slack_cmds,
+  port: 4001,
   es: %{
     url: "http://localhost:9200/rails_event_store_active_record_events_development/_search?"
   },
@@ -40,4 +41,4 @@ config :prohound_slack_cmds,
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env()}.exs"
+import_config "#{Mix.env()}.exs"

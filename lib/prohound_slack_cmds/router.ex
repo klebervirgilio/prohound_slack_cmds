@@ -1,19 +1,20 @@
 defmodule ProhoundSlackCmds.Router do
   use Plug.Router
 
-  alias ProhoundSlackCmds.SmartCentre.Model
-
   plug(Plug.Parsers, parsers: [:urlencoded])
   plug(Plug.Logger)
   plug(:match)
   plug(:dispatch)
 
-  get "/sc" do
-    {:ok, json} = Poison.encode(Model.all())
+  post "/sc" do
+    url = Map.get(conn.params, "response_url") |> URI.decode
+    spawn fn ->
+      ProhoundSlackCmds.SmartCentre.Slack.post(url)
+    end
 
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(200, json)
+    |> send_resp(200, "")
   end
 
   match _ do
