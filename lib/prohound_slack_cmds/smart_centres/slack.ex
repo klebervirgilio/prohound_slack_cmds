@@ -56,7 +56,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
   def format_date(datetime) when is_nil(datetime), do: "Nunca"
 
   def format_date(datetime) do
-    Timex.format!(datetime, "%y-%m-%d %H:%M:%S", :strftime)
+    Timex.format!(brazilian_time_zone(datetime), "%y-%m-%d %H:%M:%S", :strftime)
   end
 
   def online?(model) do
@@ -73,11 +73,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
     end
   end
 
-  def brazilian_time_zone(model) do
-    if model.latest_sync do
-      Timex.Timezone.convert(model.latest_sync, Timex.Timezone.get("America/Sao_Paulo"))
-    else
-      nil
-    end
+  def brazilian_time_zone(datetime) do
+    Timex.Timezone.convert(datetime, Timex.Timezone.get("America/Sao_Paulo"))
   end
 end
