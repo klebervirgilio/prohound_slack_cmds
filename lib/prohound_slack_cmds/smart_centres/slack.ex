@@ -1,6 +1,5 @@
 defmodule ProhoundSlackCmds.SmartCentre.Slack do
   alias ProhoundSlackCmds.SmartCentre.Model
-  require IEx
 
   def view do
     models = Model.all()
@@ -51,7 +50,13 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
   end
 
   def to_s(model) do
-    "*#{model.registration_code}* - #{model.group} > #{model.branch} > #{model.account_name}"
+    "*#{model.registration_code}* - #{format_date(model.latest_sync)} - #{model.group} > #{model.branch} > #{model.account_name}"
+  end
+
+  def format_date(datetime) when is_nil(datetime), do: "Nunca"
+
+  def format_date(datetime) do
+    Timex.format!(datetime, "%y-%m-%d %H:%M:%S", :strftime)
   end
 
   def online?(model) do
