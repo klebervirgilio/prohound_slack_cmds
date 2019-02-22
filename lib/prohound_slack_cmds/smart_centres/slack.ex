@@ -10,6 +10,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
     offline_percent = 100.0 - online_percent
 
     %{
+      response_type: "in_channel",
       attachments: [
         %{
           title: "SmartCentre Online (#{online_percent}%)",
