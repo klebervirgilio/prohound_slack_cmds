@@ -27,7 +27,8 @@ defmodule ProhoundSlackCmds.MixProject do
       {:postgrex, "~> 0.13.5"},
       {:httpoison, "~> 1.4"},
       {:poison, "~> 3.1"},
-      {:timex, "~> 3.1"}
+      {:timex, "~> 3.1"},
+      {:distillery, "~> 2.0"}
     ]
   end
 end

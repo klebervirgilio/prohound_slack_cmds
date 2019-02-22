@@ -32,7 +32,7 @@ defmodule ProhoundSlackCmds.SmartCentre.ES do
   }'
   """
 
-  def last_sync(gateway_id) do
+  def latest_sync(gateway_id) do
     case HTTPoison.request(:get, es_url(), body(gateway_id), headers()) do
       {:ok, %HTTPoison.Response{status_code: 200, body: b}} ->
         b |> Poison.decode!() |> process_body()
