@@ -8,9 +8,9 @@ defmodule ProhoundSlackCmds.Router do
 
   post "/sc" do
     url = Map.get(conn.params, "response_url") |> URI.decode
-    spawn fn ->
-      ProhoundSlackCmds.SmartCentre.Slack.post(url)
-    end
+    # spawn fn ->
+    ProhoundSlackCmds.SmartCentre.Slack.post(url)
+    # end
 
     conn
     |> put_resp_content_type("application/json")
