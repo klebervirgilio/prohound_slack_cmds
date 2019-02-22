@@ -3,7 +3,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
   require IEx
 
   def view do
-    models = Model.all
+    models = Model.all()
     offline = Enum.filter(models, &offline?/1)
     online = Enum.filter(models, &online?/1)
 
@@ -27,7 +27,16 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
   end
 
   def post(url) do
-     HTTPoison.post(url, to_json(), [{"Content-Type", "application/json"}])
+    json = to_json()
+    IO.puts(json)
+
+    case HTTPoison.post(url, json, [{"Content-Type", "application/json"}]) do
+      {:ok, %HTTPoison.Response{status_code: 200}} ->
+        IO.puts("OOOOOKKKKK")
+
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.puts(reason)
+    end
   end
 
   def to_json do
@@ -48,12 +57,12 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
   def online?(model) do
     model
     |> offline?()
-    |> Kernel.not
+    |> Kernel.not()
   end
 
   def offline?(model) do
     if model.latest_sync do
-      Timex.before?(model.latest_sync, Timex.shift(Timex.now, minutes: -31))
+      Timex.before?(model.latest_sync, Timex.shift(Timex.now(), minutes: -31))
     else
       true
     end

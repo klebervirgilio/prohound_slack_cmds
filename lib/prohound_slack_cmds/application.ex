@@ -11,7 +11,11 @@ defmodule ProhoundSlackCmds.Application do
     children = [
       {Postgrex,
        Keyword.put(Application.get_env(:prohound_slack_cmds, :db), :name, ProhoundSlackCmds.DB)},
-      Plug.Cowboy.child_spec(scheme: :http, plug: ProhoundSlackCmds.Router, options: [port: Application.get_env(:prohound_slack_cmds, :port)])
+      Plug.Cowboy.child_spec(
+        scheme: :http,
+        plug: ProhoundSlackCmds.Router,
+        options: [port: Application.get_env(:prohound_slack_cmds, :port)]
+      )
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

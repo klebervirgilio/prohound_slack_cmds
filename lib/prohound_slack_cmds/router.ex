@@ -7,7 +7,7 @@ defmodule ProhoundSlackCmds.Router do
   plug(:dispatch)
 
   post "/sc" do
-    url = Map.get(conn.params, "response_url") |> URI.decode
+    url = Map.get(conn.params, "response_url") |> URI.decode()
     # spawn fn ->
     ProhoundSlackCmds.SmartCentre.Slack.post(url)
     # end
