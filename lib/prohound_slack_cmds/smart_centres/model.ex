@@ -3,7 +3,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Model do
   alias ProhoundSlackCmds.SmartCentre.ES
 
   defstruct account_id: nil,
-            account_name: nil,
+            account: nil,
             branch: nil,
             group: nil,
             machine: nil,

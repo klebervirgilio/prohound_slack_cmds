@@ -50,7 +50,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
   end
 
   def to_s(model) do
-    "*#{model.registration_code}* - #{format_date(model.latest_sync)} - #{model.group} > #{model.branch} > #{model.account_name}"
+    "*#{model.registration_code}* - #{format_date(model.latest_sync)} - #{model.group} > #{model.branch} > #{model.account}"
   end
 
   def format_date(datetime) when is_nil(datetime), do: "Nunca"
