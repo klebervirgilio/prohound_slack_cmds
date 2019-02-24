@@ -11,7 +11,7 @@ config :prohound_slack_cmds,
     pool: DBConnection.Poolboy,
     pool_size: 5,
     host: "localhost",
-    username: "klebercorreia",
+    username: System.get_env("USER"),
     password: "",
     database: "prohound_development"
   ]

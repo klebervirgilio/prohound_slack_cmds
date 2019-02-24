@@ -1,5 +1,6 @@
 defmodule ProhoundSlackCmds.SmartCentre.Slack do
   alias ProhoundSlackCmds.SmartCentre.Model
+  alias ProhoundSlackCmds.HTTP
 
   def view do
     models = Model.all()
@@ -27,16 +28,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
   end
 
   def post(url) do
-    json = to_json()
-    IO.puts(json)
-
-    case HTTPoison.post(url, json, [{"Content-Type", "application/json"}]) do
-      {:ok, %HTTPoison.Response{status_code: 200}} ->
-        IO.puts("OOOOOKKKKK")
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.puts(reason)
-    end
+    HTTP.post(url, to_json())
   end
 
   def to_json do
@@ -51,7 +43,9 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
   end
 
   def to_s(model) do
-    "*#{model.registration_code}* - #{format_date(model.latest_sync)} - #{model.group} > #{model.branch} > #{model.account}"
+    "*#{model.registration_code}* - #{format_date(model.latest_sync)} - #{model.group} > #{
+      model.branch
+    } > #{model.account}"
   end
 
   def format_date(datetime) when is_nil(datetime), do: "Nunca"

@@ -1,4 +1,6 @@
 defmodule ProhoundSlackCmds.SmartCentre.Repo do
+  import ProhoundSlackCmds.Repo
+
   @base_query ~S"""
   SELECT registration_code,
          gateways.id,
@@ -16,18 +18,14 @@ defmodule ProhoundSlackCmds.SmartCentre.Repo do
   """
 
   def find_all do
-    :poolboy.transaction(
-      ProhoundSlackCmds.DB,
-      &(Postgrex.query!(&1, @base_query, []) |> zip_columns_and_rows)
-    )
-  end
+    case exec_query(@base_query) do
+      {:ok, result} ->
+        result
+        |> zip_columns_and_rows()
 
-  defp zip_columns_and_rows(%{rows: rows, columns: columns}) do
-    columns = columns |> Enum.map(&String.to_atom/1)
-    rows |> Enum.map(&zip_columns_row(columns, &1))
-  end
-
-  defp zip_columns_row(columns, row) do
-    Enum.zip(columns, row) |> Map.new()
+      {:error, message} ->
+        IO.puts(message)
+        -1
+    end
   end
 end
