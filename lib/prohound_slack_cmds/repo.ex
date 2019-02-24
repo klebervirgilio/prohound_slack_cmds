@@ -1,5 +1,7 @@
 defmodule ProhoundSlackCmds.Repo do
   def exec_query(query) do
+    IO.puts(query)
+
     try do
       :poolboy.transaction(
         ProhoundSlackCmds.DB,

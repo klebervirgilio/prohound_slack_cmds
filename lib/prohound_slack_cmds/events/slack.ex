@@ -8,7 +8,10 @@ defmodule ProhoundSlackCmds.Event.Slack do
     end
   end
 
-  def delete(url, time_ago \\ nil) do
+  def delete(url, nil), do: delete(url, "10 days")
+  def delete(url, ""), do: delete(url, "10 days")
+
+  def delete(url, time_ago) do
     case Poison.encode(%{text: "Rows: #{Repo.delete_all(time_ago)}"}) do
       {:ok, json} -> HTTP.post(url, json)
     end
