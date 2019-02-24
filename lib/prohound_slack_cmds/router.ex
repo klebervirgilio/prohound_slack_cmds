@@ -9,9 +9,7 @@ defmodule ProhoundSlackCmds.Router do
   post "/sc" do
     url = Map.get(conn.params, "response_url") |> URI.decode()
 
-    spawn(fn ->
-      ProhoundSlackCmds.SmartCentre.Slack.post(url)
-    end)
+    Task.start(fn -> ProhoundSlackCmds.SmartCentre.Slack.post(url) end)
 
     conn
     |> put_resp_content_type("application/json")
@@ -21,9 +19,7 @@ defmodule ProhoundSlackCmds.Router do
   post "/ce" do
     url = Map.get(conn.params, "response_url") |> URI.decode()
 
-    spawn(fn ->
-      ProhoundSlackCmds.Event.Slack.count(url)
-    end)
+    Task.start(fn -> ProhoundSlackCmds.Event.Slack.count(url) end)
 
     conn
     |> put_resp_content_type("application/json")
@@ -34,9 +30,7 @@ defmodule ProhoundSlackCmds.Router do
     url = Map.get(conn.params, "response_url") |> URI.decode()
     text = Map.get(conn.params, "text", "5 days") |> URI.decode()
 
-    spawn(fn ->
-      ProhoundSlackCmds.Event.Slack.delete(url, text)
-    end)
+    Task.start(fn -> ProhoundSlackCmds.Event.Slack.delete(url, text) end)
 
     conn
     |> put_resp_content_type("application/json")
