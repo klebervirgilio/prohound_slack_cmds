@@ -2,8 +2,11 @@ defmodule ProhoundSlackCmds.SmartModule.Slack do
   alias ProhoundSlackCmds.SmartModule.Model
   alias ProhoundSlackCmds.HTTP
 
+  require IEx
+
   def view do
     models = Model.all()
+
     offline = Enum.filter(models, &offline?/1)
     online = Enum.filter(models, &online?/1)
 
@@ -35,17 +38,29 @@ defmodule ProhoundSlackCmds.SmartModule.Slack do
 
   def attachment_text(models) do
     models
+    |> Enum.group_by(fn model -> model.id end)
     |> Enum.map(&to_s/1)
     |> Enum.join("\n")
   end
 
   def to_s(model) do
+    {_, peers} = model
+    peer = peers |> hd
+
+    sensors =
+      peers
+      |> Enum.map(fn p ->
+        "#{p.sensor_title} | #{p.sensor_location} | #{p.sensor_type}"
+      end)
+      |> Enum.join("\n")
+
     ~s"""
-    *#{model.peer}* - #{format_date(model.latest_sync)} #{model.group} > #{model.branch} > #{
-      model.account
+    *#{peer.peer}* - #{format_date(peer.latest_sync)} #{peer.group} > #{peer.branch} > #{
+      peer.account
     }
 
-    Sensor: #{model.sensor_title} | #{model.sensor_location} | #{model.sensor_type}
+    Sensores:
+    #{sensors}
     """
   end
 
