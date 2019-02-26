@@ -16,6 +16,16 @@ defmodule ProhoundSlackCmds.Router do
     |> send_resp(200, "")
   end
 
+  post "/sm" do
+    url = Map.get(conn.params, "response_url") |> URI.decode()
+
+    Task.start(fn -> ProhoundSlackCmds.SmartModule.Slack.post(url) end)
+
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, "")
+  end
+
   post "/ce" do
     url = Map.get(conn.params, "response_url") |> URI.decode()
 

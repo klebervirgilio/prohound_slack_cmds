@@ -1,4 +1,4 @@
-defmodule ProhoundSlackCmds.SmartCentre.ES do
+defmodule ProhoundSlackCmds.SmartModule.ES do
   require HTTPoison
   require Poison
 
@@ -11,18 +11,18 @@ defmodule ProhoundSlackCmds.SmartCentre.ES do
         "must": [
           {
             "match": {
-              "event_type": "Measurements::GatewayLastSyncronized"
+              "event_type": "Measurements::PeerLastSyncronized"
             }
           },
           {
             "match": {
-              "stream": "Gateway$<%= gateway_id %>"
+              "stream": "Peer$<%= peer_id %>"
             }
           }
         ]
       }
     },
-    "_source": ["gateway_id", "timestamp"],
+    "_source": ["peer_id", "timestamp"],
     "sort": [
       {
         "timestamp": {
@@ -34,11 +34,11 @@ defmodule ProhoundSlackCmds.SmartCentre.ES do
   }'
   """
 
-  def latest_sync(gateway_id) do
-    gateway_id |> body() |> do_request
+  def latest_sync(peer_id) do
+    peer_id |> body() |> do_request
   end
 
-  def body(gateway_id) do
-    EEx.eval_string(@es_query, gateway_id: gateway_id)
+  def body(peer_id) do
+    EEx.eval_string(@es_query, peer_id: peer_id)
   end
 end
