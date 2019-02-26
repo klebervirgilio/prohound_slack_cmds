@@ -55,9 +55,9 @@ defmodule ProhoundSlackCmds.SmartModule.Slack do
       |> Enum.join("\n")
 
     ~s"""
-    *#{peer.peer}* - #{format_date(peer.latest_sync)} #{peer.group} > #{peer.branch} > #{
-      peer.account
-    }
+    *#{peer.peer}* - #{peer.group} > #{peer.branch} > #{peer.account}
+
+    Última Comunicação: `#{format_date(peer.latest_sync)}`
 
     Sensores:
     #{sensors}
