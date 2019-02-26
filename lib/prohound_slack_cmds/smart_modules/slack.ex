@@ -7,19 +7,16 @@ defmodule ProhoundSlackCmds.SmartModule.Slack do
     offline = Enum.filter(models, &offline?/1)
     online = Enum.filter(models, &online?/1)
 
-    online_percent = Enum.count(online) / Enum.count(models) * 100
-    offline_percent = 100.0 - online_percent
-
     %{
       response_type: "in_channel",
       attachments: [
         %{
-          title: "SmartModule Online (#{online_percent}%)",
+          title: "SmartModule Online",
           text: online |> attachment_text(),
           color: "good"
         },
         %{
-          title: "SmartModule Offline (#{offline_percent}%)",
+          title: "SmartModule Offline",
           text: offline |> attachment_text(),
           color: "danger"
         }
@@ -44,19 +41,18 @@ defmodule ProhoundSlackCmds.SmartModule.Slack do
 
   def to_s(model) do
     ~s"""
-    (#{model.id}) *#{model.peer}* - #{format_date(model.latest_sync)}
-    #{model.group} > #{model.branch} > #{model.account}
+    *#{model.peer}* - #{format_date(model.latest_sync)} #{model.group} > #{model.branch} > #{
+      model.account
+    }
 
-    Sensor: #{model.sensor_title}
-    Localização: #{model.sensor_location}
-    Tipo: #{model.sensor_type}
+    Sensor: #{model.sensor_title} | #{model.sensor_location} | #{model.sensor_type}
     """
   end
 
   def format_date(datetime) when is_nil(datetime), do: "Nunca"
 
   def format_date(datetime) do
-    Timex.format!(brazilian_time_zone(datetime), "%y-%m-%d %H:%M:%S", :strftime)
+    Timex.format!(brazilian_time_zone(datetime), "%Y-%m-%d %H:%M:%S", :strftime)
   end
 
   def online?(model) do
