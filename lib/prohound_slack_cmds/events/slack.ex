@@ -3,7 +3,7 @@ defmodule ProhoundSlackCmds.Event.Slack do
   alias ProhoundSlackCmds.HTTP
   alias ProhoundSlackCmds.Event.ES
 
-  def count(url) do
+  def count(url, text \\ nil) do
     case Poison.encode(%{text: "Count: #{Repo.count()}"}) do
       {:ok, json} -> HTTP.post(url, json)
     end

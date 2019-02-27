@@ -27,13 +27,15 @@ defmodule ProhoundSlackCmds.SmartModule.Slack do
     }
   end
 
-  def post(url) do
+  def post(url, text \\ nil) do
     HTTP.post(url, to_json())
   end
 
   def to_json do
-    {:ok, json} = Poison.encode(view())
-    json
+    case Poison.encode(view()) do
+      {:ok, json} -> json
+      _ -> ""
+    end
   end
 
   def attachment_text(models) do
@@ -43,10 +45,7 @@ defmodule ProhoundSlackCmds.SmartModule.Slack do
     |> Enum.join("\n")
   end
 
-  def to_s(model) do
-    {_, peers} = model
-    peer = peers |> hd
-
+  def to_s({_, [peer | peers]}) do
     sensors =
       peers
       |> Enum.map(fn p ->

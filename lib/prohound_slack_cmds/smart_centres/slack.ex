@@ -27,7 +27,7 @@ defmodule ProhoundSlackCmds.SmartCentre.Slack do
     }
   end
 
-  def post(url) do
+  def post(url, text \\ nil) do
     HTTP.post(url, to_json())
   end
 

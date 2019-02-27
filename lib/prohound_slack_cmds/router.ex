@@ -1,61 +1,40 @@
 defmodule ProhoundSlackCmds.Router do
   use Plug.Router
+  alias ProhoundSlackCmds.{SmartCentre, Event, SmartModule}
 
   plug(Plug.Parsers, parsers: [:urlencoded])
   plug(Plug.Logger)
   plug(:match)
   plug(:dispatch)
 
-  post "/sc" do
+  def exec_cmd(conn, cmd) do
     url = Map.get(conn.params, "response_url") |> URI.decode()
-
-    Task.start(fn -> ProhoundSlackCmds.SmartCentre.Slack.post(url) end)
+    text = Map.get(conn.params, "text") |> URI.decode()
+    Task.start(fn -> cmd.(url, text) end)
 
     conn
     |> put_resp_content_type("application/json")
     |> send_resp(200, "")
+  end
+
+  post "/sc" do
+    exec_cmd(conn, &SmartCentre.Slack.post/2)
   end
 
   post "/sm" do
-    url = Map.get(conn.params, "response_url") |> URI.decode()
-
-    Task.start(fn -> ProhoundSlackCmds.SmartModule.Slack.post(url) end)
-
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, "")
+    exec_cmd(conn, &SmartModule.Slack.post/2)
   end
 
   post "/ce" do
-    url = Map.get(conn.params, "response_url") |> URI.decode()
-
-    Task.start(fn -> ProhoundSlackCmds.Event.Slack.count(url) end)
-
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, "")
+    exec_cmd(conn, &Event.Slack.count/2)
   end
 
   post "/de" do
-    url = Map.get(conn.params, "response_url") |> URI.decode()
-    text = Map.get(conn.params, "text", "5 days") |> URI.decode()
-
-    Task.start(fn -> ProhoundSlackCmds.Event.Slack.delete(url, text) end)
-
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, "")
+    exec_cmd(conn, &Event.Slack.delete/2)
   end
 
   post "/se" do
-    url = Map.get(conn.params, "response_url") |> URI.decode()
-    text = Map.get(conn.params, "text") |> URI.decode()
-
-    Task.start(fn -> ProhoundSlackCmds.Event.Slack.latest(url, text) end)
-
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, "")
+    exec_cmd(conn, &Event.Slack.latest/2)
   end
 
   match _ do
